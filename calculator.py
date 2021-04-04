@@ -1,6 +1,7 @@
 from tkinter import *
 
 class Application(Frame):
+    """"""
 
     def  __init__(self,master):
         super(Application,self).__init__()
@@ -88,11 +89,42 @@ class Application(Frame):
         self.DivButton.grid(row = 5, column = 3 , sticky = W)
 
         self.EqualButton = Button(self, bg = "#E6D72A", bd= 12,
-        text = "=", padx = 33, pady = 25,
-        font= ("Helvetica", 20, "bold"), command = lambda: self.buttonClick("="))
-        self.EqualButton.grid(row = 5, column = 1 , sticky = W)
+        text = "=", padx = 100, pady = 25,
+        font= ("Helvetica", 20, "bold"), command = self.CalculateTask)
+        self.EqualButton.grid(row = 5, column = 1 , sticky = W, columnspan = 2)
 
         self.ClearButton = Button(self, bg = "#E6D72A", bd= 12,
         text = "AC", width = 28, padx = 7,
         font= ("Helvetica", 20, "bold"), command = self.ClearDisplay)
-        self.ClearButton.grid(row = 1, column = 4 , sticky = W)
+        self.ClearButton.grid(row = 1, columnspan = 4 , sticky = W)
+
+    def buttonClick(self, number):
+        self.task = str(self.task) + str(number)
+        self.UserIn.set(self.task)
+
+    def CalculateTask(self):
+        self.data = self.user_input.get()
+        try:
+            self.answer = eval(self.data)
+            self.displayText(self.answer)
+            self.task = self.answer
+        
+        except:
+            self.displayText("Invalid Syntax!")
+    
+    def displayText(self,value):
+        self.user_input.delete(0,END)
+        self.user_input.inser(0, value)
+    
+    def ClearDisplay(self):
+        self.task = " "
+        self.user_input.delete(0, END)
+        self.user_input.inser(0, "0")
+
+calculator = Tk()
+
+calculator.title("Calculator")
+app = Application(calculator)
+
+calculator.resizable(width = False, height = False)
+calculator.mainloop()
